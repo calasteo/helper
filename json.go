@@ -15,13 +15,13 @@ type Action struct {
 type JsonResponse struct {
 	Success bool           `json:"success"`
 	Message string         `json:"message"`
-	Data    any            `json:"data,omitempty"`
+	Data    interface{}    `json:"data,omitempty"`
 	Error   *ResponseError `json:"error,omitempty"`
 }
 type ResponseError struct {
-	Message string `json:"message"`
-	Code    int    `json:"code"`
-	Trace   any    `json:"trace,omitempty"`
+	Message string      `json:"message"`
+	Code    int         `json:"code"`
+	Trace   interface{} `json:"trace,omitempty"`
 }
 
 func setHeader(w http.ResponseWriter) http.ResponseWriter {
@@ -29,7 +29,7 @@ func setHeader(w http.ResponseWriter) http.ResponseWriter {
 	return w
 }
 
-func (a *Action) WriteJson(w http.ResponseWriter, v any, statusCode ...int) {
+func (a *Action) WriteJson(w http.ResponseWriter, v interface{}, statusCode ...int) {
 	code := http.StatusOK
 	if len(statusCode) > 0 {
 		code = statusCode[0]
@@ -74,7 +74,7 @@ func (a *Action) ErrJson(w http.ResponseWriter, message string, err error, statu
 	return
 }
 
-func (a *Action) ReadJSON(w http.ResponseWriter, r *http.Request, v any) error {
+func (a *Action) ReadJSON(w http.ResponseWriter, r *http.Request, v interface{}) error {
 	maxBytes := 1048576
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 	decoder := json.NewDecoder(r.Body)
@@ -88,7 +88,7 @@ func (a *Action) ReadJSON(w http.ResponseWriter, r *http.Request, v any) error {
 	return nil
 }
 
-func (a *Action) PrintLog(msg string, v any) {
+func (a *Action) PrintLog(msg string, v interface{}) {
 	data, err := json.MarshalIndent(v, "", "\t")
 	if err != nil {
 		now := time.Now().Format("2006-01-02 15:04:05")

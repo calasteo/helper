@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func PrettyPrint(v any, title ...string) (string, error) {
+func PrettyPrint(v interface{}, title ...string) (string, error) {
 	name := "log"
 	if len(title) > 0 {
 		name = strings.Join(title, ", ")

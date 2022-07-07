@@ -24,13 +24,13 @@ func init() {
 	}
 }
 
-func (l *Logger) LogInfo(args ...any) {
+func (l *Logger) LogInfo(args ...interface{}) {
 	fmt.Println(InfoColor, args, ResetCOlor)
 }
 
-func (l *Logger) LogError(args ...any) {
+func (l *Logger) LogError(args ...interface{}) {
 	fmt.Println(ErrorColor, args, ResetCOlor)
 }
-func (l *Logger) LogSuccess(args ...any) {
+func (l *Logger) LogSuccess(args ...interface{}) {
 	fmt.Println(SuccessColor, args, ResetCOlor)
 }
